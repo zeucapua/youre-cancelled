@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Plan {
+  id          String      @id @default(cuid())
+  description String
+  time        DateTime
+  recipients  Recipient[]
+  message_id  String?
+}
+
+model Recipient {
+  id        String  @id @default(cuid())
+  email     String
+  cancelled Boolean @default(false)
+  planId    String
+  Plan      Plan    @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
