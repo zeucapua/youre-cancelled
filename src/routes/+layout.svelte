@@ -3,6 +3,6 @@
 </script>
 
 <main class="flex flex-col gap-8 w-full h-full min-w-screen min-h-screen mx-auto items-center justify-center p-8" > 
-  <h1 class="text-5xl font-bold">You're Cancelled</h1>
+  <img src="/wordart.png" alt="You're Cancelled in WordArt font" class="w-full mx-auto px-auto max-w-xl" />
   <slot />
 </main>

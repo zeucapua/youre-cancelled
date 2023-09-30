@@ -2,6 +2,7 @@ import { Client } from "@upstash/qstash";
 
 import { prisma } from "$lib/server/prisma";
 import { QSTASH_TOKEN } from "$env/static/private";
+import { fail } from "@sveltejs/kit";
 
 const q_client = new Client({
   token: QSTASH_TOKEN
@@ -14,6 +15,11 @@ export const actions = {
     const time = form_data.get("time") as string;
 
     let num_of_friends = form_data.get("num_of_friends");
+
+    if (num_of_friends < 2) {
+      return fail(400, { description, time, missing: true });
+    }
+
     let emails : {email : string}[] = [];
     while (!(num_of_friends === 0)) {
       emails = [...emails, { email: form_data.get(`friend_${num_of_friends - 1}`) }];
@@ -51,5 +57,6 @@ export const actions = {
 
     // email confirmation with resend
 
+    return { success: true };
   }
 }
