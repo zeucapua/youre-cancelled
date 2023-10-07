@@ -6,7 +6,7 @@ export default {
     },
   },
   daisyui: {
-    themes: ["retro", "cupcake"]
+    themes: ["retro", "cupcake", "coffee"]
   },
   plugins: [require("daisyui")],
 }

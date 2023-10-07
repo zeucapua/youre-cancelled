@@ -37,7 +37,7 @@
     </div>
   </div>
 {:else}
-  <form use:enhance method="POST" action="?/schedulePlan" class="gap-8 form-control w-full max-w-xl rounded-md bg-neutral p-8">
+  <form use:enhance method="POST" action="?/schedulePlan" class="gap-8 form-control w-full max-w-xl rounded-xl p-8 text-base-content"> 
     <div>
       <label class="label">
         <span class="label-text text-neutral-content lg:text-lg font-bold">What's the Plan?</span>
@@ -59,7 +59,7 @@
       {#each friends as friend, index}
         <div class="join">
           <input name={`friend_${index}`} bind:value={friend} type="email" required class="input rounded-r-none w-full" placeholder="jane@example.com"/>
-          <button type="button" class="btn join-item" on:click={() => deleteFriend(index)}>Delete</button>
+          <button type="button" class="btn btn-error join-item" on:click={() => deleteFriend(index)}>Delete</button>
         </div>
       {/each}
     </div>

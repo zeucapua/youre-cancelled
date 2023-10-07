@@ -1,12 +1,15 @@
 import { Client } from "@upstash/qstash";
+import { Resend } from "resend";
 
 import { prisma } from "$lib/server/prisma";
-import { QSTASH_TOKEN } from "$env/static/private";
+import { QSTASH_TOKEN, RESEND_API_KEY } from "$env/static/private";
 import { fail } from "@sveltejs/kit";
 
 const q_client = new Client({
   token: QSTASH_TOKEN
 });
+
+const resend = new Resend(RESEND_API_KEY);
 
 export const actions = {
   schedulePlan: async ({ request }) => {
@@ -40,7 +43,7 @@ export const actions = {
     });
 
     const qstash_response = await q_client.publishJSON({
-      url: "https://pet-manatee-darling.ngrok-free.app/rendevouz", 
+      url: "https://youre-cancelled.zeu.dev/rendevouz", 
       body: {
         plan_id: plan_data.id
       },
@@ -54,8 +57,22 @@ export const actions = {
       }
     });
 
+    let receivers : string[] = [];
+    emails.map(e => receivers = [...receivers, e.email]);
 
     // email confirmation with resend
+    await resend.emails.send({
+      from: "You're Cancelled <youre-cancelled.zeu.dev>",
+      to: receivers,
+      subject: `Reminder for ${description}`,
+      html: `
+        <p>A reminder that ${description} is coming!</p>
+        <p>Scheduled data is set for ${Intl.DateTimeFormat('en-US').format(new Date(time))}
+        <a href="https://youre-cancelled.zeu.dev/${plan_data.id}" ping="https://youre-cancelled.zeu.dev/${plan_data.id}">
+          Cancel
+        </a>
+      `
+    });
 
     return { success: true };
   }
